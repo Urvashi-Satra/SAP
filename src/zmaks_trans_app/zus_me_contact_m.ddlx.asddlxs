@@ -1,0 +1,93 @@
+@Metadata.layer: #PARTNER
+@UI.headerInfo: {
+ typeName: 'Contact', 
+ typeNamePlural: 'Contacts',
+ title:{
+        type: #STANDARD,
+        label: 'First name',
+        value: 'FirstName'
+       },
+  description :{
+        type: #STANDARD,
+        label: 'Last name',
+        value: 'LastName'
+  }
+
+}
+@Search.searchable: true
+annotate entity ZUS_C_Contact_M
+    with 
+{
+    
+  @UI.facet: [{
+      id: 'idContact',
+      purpose: #STANDARD,
+      position: 10,
+      type: #IDENTIFICATION_REFERENCE //when we want to display a single reference of entity
+
+
+   }]
+  // for object/detailed page/second page
+  @UI.identification: [{ position: 10, label: 'Contact id' }]
+  @UI.hidden: true
+  ContactId;
+  // for first page/list report 
+  @UI.lineItem: [{ position: 20 ,label: 'First Name' },
+                       { type: #FOR_ACTION , dataAction: 'setStatus', label: 'Change Status' },
+                       { type: #FOR_ACTION , dataAction: 'CopyContact', label: 'Copy Contact' }  
+                ]
+  // for object/detailed page/second page
+  @UI.identification: [{ position: 20 ,label: 'First Name' },
+                       { type: #FOR_ACTION , dataAction: 'setStatus', label: 'Change Status' },
+                       { type: #FOR_ACTION , dataAction: 'CopyContact', label: 'Copy Contact' }
+  ]
+  @Search.defaultSearchElement: true
+  @Search.fuzzinessThreshold: 0.8
+  FirstName;
+  @UI.lineItem: [{ position: 30 ,label:'Middle Name'   }]
+  @UI.identification: [{ position: 30 ,label:'Middle Name' }]
+  @Search.defaultSearchElement: true
+  @Search.fuzzinessThreshold: 0.8
+  MiddleName;
+  @UI.lineItem: [{ position: 40 ,label: 'LastName' }]
+  @UI.identification: [{ position: 40 ,label: 'LastName'  }]
+  @Search.defaultSearchElement: true
+  @Search.fuzzinessThreshold: 0.8
+  LastName;
+  @UI.lineItem: [{ position: 50 ,label: 'Gender' }]
+  @UI.identification: [{ position: 50 ,label: 'Gender' }]
+  @Consumption.valueHelpDefinition: [{
+      entity: {
+          name : 'ZMAKS_I_GENDER_M',
+          element: 'GenderCode'
+         }
+
+   }]
+  @UI.textArrangement: #TEXT_FIRST
+  Gender;
+  @UI.identification: [{ position: 60 ,label: 'DOB'   }]
+  Dob;
+  @UI.lineItem: [{ position: 70 ,label: 'Age' }]
+  @UI.identification: [{ position: 70 ,label: 'Age'  }]
+  Age;
+  @UI.lineItem: [{ position: 80 ,label: 'Telephone'  }]
+  @UI.identification: [{ position: 80 ,label: 'Telephone'  }]
+  @Search.defaultSearchElement: true
+  @Search.fuzzinessThreshold: 0.8
+  Telephone;
+  @UI.identification: [{ position: 90 ,label: 'Email'  }]
+  Email;
+  @UI.lineItem: [{ position:  100,label: 'Active' }]
+  @UI.identification: [{ position: 100 ,label: 'Active'  }]
+  Active;
+
+  @UI.hidden: true
+  CreatedBy;
+  @UI.hidden: true
+  CreatedAt;
+  @UI.hidden: true
+  LastChangedBy;
+  @UI.hidden: true
+  LastChangedAt;
+
+}
