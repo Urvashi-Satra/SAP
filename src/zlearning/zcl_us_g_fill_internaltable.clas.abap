@@ -17,7 +17,7 @@ ENDCLASS.
 
 
 
-CLASS zcl_us_g_fill_internaltable IMPLEMENTATION.
+CLASS ZCL_US_G_FILL_INTERNALTABLE IMPLEMENTATION.
 
 
   METHOD if_oo_adt_classrun~main.

@@ -17,7 +17,7 @@ ENDCLASS.
 
 
 
-CLASS zcl_us_g_access_internaltable IMPLEMENTATION.
+CLASS ZCL_US_G_ACCESS_INTERNALTABLE IMPLEMENTATION.
 
 
   METHOD if_oo_adt_classrun~main.

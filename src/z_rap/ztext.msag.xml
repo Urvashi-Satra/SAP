@@ -14,6 +14,18 @@
      <MSGNR>001</MSGNR>
      <TEXT>Flight Number &amp;1 &amp;2 already exists.</TEXT>
     </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZTEXT</ARBGB>
+     <MSGNR>002</MSGNR>
+     <TEXT>Airline &amp;1 already exists</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZTEXT</ARBGB>
+     <MSGNR>003</MSGNR>
+     <TEXT>Departure &amp;1 and destination &amp;2 cannot be same .</TEXT>
+    </T100>
    </T100>
   </asx:values>
  </asx:abap>

@@ -12,7 +12,7 @@ ENDCLASS.
 
 
 
-CLASS zcl_us_global_cds IMPLEMENTATION.
+CLASS ZCL_US_GLOBAL_CDS IMPLEMENTATION.
 
 
   METHOD if_oo_adt_classrun~main.

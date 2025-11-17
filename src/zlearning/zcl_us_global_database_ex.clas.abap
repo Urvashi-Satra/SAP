@@ -12,7 +12,7 @@ ENDCLASS.
 
 
 
-CLASS zcl_us_global_database_ex IMPLEMENTATION.
+CLASS ZCL_US_GLOBAL_DATABASE_EX IMPLEMENTATION.
 
 
   METHOD if_oo_adt_classrun~main.

@@ -33,6 +33,9 @@ authorization master( global )
   draft determine action Prepare;
 
   validation checkSemanticKey on save {create; update;}
+  validation checkAirline on save {create; update;}
+  validation checkDestiation on save{create;update;}
+
 
   mapping for Z99FLIGHT corresponding extensible
   {
