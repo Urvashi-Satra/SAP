@@ -10,7 +10,9 @@ CLASS lhc_zr_flight DEFINITION INHERITING FROM cl_abap_behavior_handler.
       checkAirline FOR VALIDATE ON SAVE
         IMPORTING keys FOR Conn~checkAirline,
       checkDestiation FOR VALIDATE ON SAVE
-        IMPORTING keys FOR Conn~checkDestiation.
+        IMPORTING keys FOR Conn~checkDestiation,
+      GetCities FOR DETERMINE ON MODIFY
+        IMPORTING keys FOR Conn~GetCities.
 ENDCLASS.
 
 CLASS lhc_zr_flight IMPLEMENTATION.
@@ -109,7 +111,7 @@ CLASS lhc_zr_flight IMPLEMENTATION.
       INTO @DATA(exists).
 
       "step 3 - validate if airline already exists and log error message .
-      IF exists <> abap_true.
+      IF exists = abap_true.
 
         DATA(message) = me->new_message(
                      id = 'ZTEXT' "Message class name
@@ -176,6 +178,47 @@ CLASS lhc_zr_flight IMPLEMENTATION.
         APPEND failed_record TO failed-conn.
       ENDIF.
     ENDLOOP.
+  ENDMETHOD.
+
+  "Determination.
+  METHOD GetCities.
+
+    DATA getCitiesDatas_upd TYPE TABLE FOR UPDATE zr_flight.
+
+
+    READ ENTITIES OF zr_flight
+    ENTITY Conn
+    FIELDS ( AirportFromID AirportToID )
+    WITH CORRESPONDING #( keys )
+    RESULT DATA(getCitiesDatas).
+
+
+    LOOP AT getCitiesDatas INTO DATA(getCitiesData).
+      SELECT SINGLE
+      FROM /DMO/I_Airport
+      FIELDS City , CountryCode
+      WHERE AirportID = @getcitiesdata-AirportFromID
+      INTO ( @getcitiesdata-CityFrom , @getcitiesdata-CountryFrom ).
+
+      SELECT SINGLE
+      FROM /dmo/i_airport
+      FIELDS City , CountryCode
+      WHERE airportId = @getcitiesdata-AirportToID
+      INTO ( @getcitiesdata-CityTo , @getcitiesdata-CountryTo  ).
+
+      MODIFY getcitiesdatas FROM getcitiesdata.
+    ENDLOOP.
+
+    getCitiesDatas_upd = CORRESPONDING #( getcitiesdatas ).
+
+    MODIFY ENTITIES OF zr_flight IN LOCAL MODE
+    ENTITY Conn
+    UPDATE FIELDS ( CityTo CountryTo CityFrom CountryFrom )
+    WITH getcitiesdatas_upd
+    REPORTED DATA(reported_records).
+
+    reported-conn = CORRESPONDING #( reported_records-conn ).
+
   ENDMETHOD.
 
 ENDCLASS.

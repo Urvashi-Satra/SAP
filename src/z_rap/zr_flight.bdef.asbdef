@@ -32,9 +32,17 @@ authorization master( global )
   draft action Resume;
   draft determine action Prepare;
 
+  side effects {
+    field AirportFromID affects field CityFrom , field CountryFrom ;
+    field AirportToID affects field CityTo , field CountryTo;
+
+  }
+
   validation checkSemanticKey on save {create; update;}
   validation checkAirline on save {create; update;}
   validation checkDestiation on save{create;update;}
+
+  determination GetCities on modify { field AirportFromID , AirportToID; }
 
 
   mapping for Z99FLIGHT corresponding extensible
