@@ -30,7 +30,9 @@ authorization master( global )
   draft action Discard;
   draft action Edit;
   draft action Resume;
-  draft determine action Prepare;
+  draft determine action Prepare{
+  validation validation_fields;
+  }
 
   side effects {
     field AirportFromID affects field CityFrom , field CountryFrom ;
@@ -41,7 +43,7 @@ authorization master( global )
   validation checkSemanticKey on save {create; update;}
   validation checkAirline on save {create; update;}
   validation checkDestiation on save{create;update;}
-
+  validation validation_fields on save {create;update;}
   determination GetCities on modify { field AirportFromID , AirportToID; }
 
 

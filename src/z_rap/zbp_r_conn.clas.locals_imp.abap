@@ -12,7 +12,9 @@ CLASS lhc_zr_flight DEFINITION INHERITING FROM cl_abap_behavior_handler.
       checkDestiation FOR VALIDATE ON SAVE
         IMPORTING keys FOR Conn~checkDestiation,
       GetCities FOR DETERMINE ON MODIFY
-        IMPORTING keys FOR Conn~GetCities.
+        IMPORTING keys FOR Conn~GetCities,
+      validation_fields FOR VALIDATE ON SAVE
+        IMPORTING keys FOR Conn~validation_fields.
 ENDCLASS.
 
 CLASS lhc_zr_flight IMPLEMENTATION.
@@ -219,6 +221,36 @@ CLASS lhc_zr_flight IMPLEMENTATION.
 
     reported-conn = CORRESPONDING #( reported_records-conn ).
 
+  ENDMETHOD.
+
+  "Determine action + validation .
+  "Mandatory Field check
+  METHOD validation_fields.
+   DATA failed_record LIKE LINE OF failed-conn.
+
+    READ ENTITIES OF zr_flight IN LOCAL MODE
+    ENTITY Conn
+    FIELDS ( AirportFromID AirportToID CarrierID )
+    WITH CORRESPONDING #( keys )
+    RESULT DATA(ValidatedData).
+
+    LOOP AT ValidatedData ASSIGNING FIELD-SYMBOL(<validateFieldData>).
+
+      " Check mandatory fields
+
+      IF <validateFieldData>-AirportFromID IS INITIAL OR <validateFieldData>-AirportToID IS INITIAL.
+        APPEND VALUE #( %key = <validateFieldData>-%key
+                        %msg = new_message( id = 'ZTEXT'
+                                            number = '004'
+                                            severity = if_abap_behv_message=>severity-error
+                                             ) ) TO reported-conn.
+      ENDIF.
+
+      failed_record-%tky = <validateFieldData>-%tky.
+      Append failed_record to failed-conn .
+
+
+    ENDLOOP.
   ENDMETHOD.
 
 ENDCLASS.

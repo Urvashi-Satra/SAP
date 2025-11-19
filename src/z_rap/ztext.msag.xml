@@ -26,6 +26,12 @@
      <MSGNR>003</MSGNR>
      <TEXT>Departure &amp;1 and destination &amp;2 cannot be same .</TEXT>
     </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZTEXT</ARBGB>
+     <MSGNR>004</MSGNR>
+     <TEXT>Please enter data of Depature and destination</TEXT>
+    </T100>
    </T100>
   </asx:values>
  </asx:abap>
